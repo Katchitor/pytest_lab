@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title if title else "Игра Поле Чудес" }}{% endblock %}
+
+{% block content %}
+<div class="game-container" style="max-width: 600px; margin: 0 auto; padding: 20px;">
+    <h2>Капитал-шоу «Поле Чудес»</h2>
+
+    <!-- Подсказка, переданная из Flask -->
+    <div class="hint" style="background: #fdf3e7; padding: 15px; border-radius: 6px; margin-bottom: 25px; border-left: 5px solid #0022cc; text-align: left;">
+        <strong>Подсказка ведущего:</strong> <span>{{ hint }}</span>
+    </div>
+
+    <!-- Игровое табло: синие и белые окошки по образцу -->
+    <div class="word-slots">
+        {% for letter in mask %}
+            {% if letter == '*' %}
+                <!-- Закрытое окошко: белое и пустое для зрителей -->
+                <div class="tile hidden-tile"></div>
+            {% else %}
+                <!-- Открытое окошко: ярко-синий фон и белая буква -->
+                <div class="tile">{{ letter }}</div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- Управление игрой в зависимости от состояния победы -->
+    {% if not is_victory %}
+        <!-- Классическая форма отправки буквы методом POST в Python-роут game_turn -->
+        <form action="{{ url_for('game_turn') }}" method="POST" class="controls" style="margin-top: 30px; text-align: center;">
+            <label for="letter-input" style="font-size: 16px; margin-right: 10px; font-weight: bold;">Введите букву:</label>
+            <input type="text" id="letter-input" name="letter" maxlength="1" autofocus placeholder="?" required
+                   style="font-size: 18px; padding: 8px; width: 50px; text-align: center; text-transform: uppercase; border: 2px solid #333366; border-radius: 4px;">
+            <button type="submit" style="font-size: 18px; padding: 8px 20px; cursor: pointer; background: #333366; color: white; border: none; border-radius: 4px; font-weight: bold; margin-left: 5px;">Назвать букву</button>
+        </form>
+    {% else %}
+        <!-- Экран триумфа при фиксации победы во Flask -->
+        <div id="win-message" style="margin-top: 30px; text-align: center; background: #e2f0d9; padding: 20px; border-radius: 8px; border: 2px solid green;">
+            <h3 style="color: green; margin-top: 0; font-size: 24px;">Вы победили!</h3>
+            <p style="font-size: 18px;">Загаданное слово: <b style="color: #0022cc; font-size: 22px;">{{ secret }}</b></p>
+            <a href="{{ url_for('game_reset') }}" style="display: inline-block; margin-top: 10px; font-size: 16px; color: #0066cc; text-decoration: none; font-weight: bold; border-bottom: 1px dashed #0066cc;">Играть снова</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

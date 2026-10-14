@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h1>Hello, {{ user.nickname }}!</h1>
+    <p>Это главная страница. Данные подставлены через Jinja2.</p>
+
+    {% if user.nickname == 'Miguel' %}
+        <p>Это наш администратор.</p>
+    {% else %}
+        <p>Это обычный пользователь.</p>
+    {% endif %}
+
+    <h2>Список пунктов:</h2>
+    <ul>
+    {% for i in range(1, 4) %}
+        <li>Пункт {{ i }}</li>
+    {% endfor %}
+    </ul>
+
+    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" width="120">
+{% endblock %}

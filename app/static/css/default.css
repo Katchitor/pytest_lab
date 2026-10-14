@@ -1,0 +1,82 @@
+* { box-sizing: border-box; }
+
+body {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    margin: 0;
+    color: #333;
+}
+
+header {
+    background: #f2b6c1;
+    padding: 20px;
+    text-align: center;
+}
+
+h1.logo {
+    font-size: 140%;
+    color: #333366;
+    margin: 0 0 10px;
+}
+
+nav ul.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul.menu li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+nav ul.menu a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+section#content {
+    min-height: 300px;
+    padding: 20px;
+    background: #f9d9b5;
+}
+
+footer {
+    background: #66c1b8;
+    padding: 15px;
+    text-align: center;
+}
+
+/* Контейнер для рядов табло */
+.word-slots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+
+/* Общий стиль для каждого окошка (сектора) */
+.tile {
+    width: 55px;
+    height: 65px; /* Слегка вытянутые по вертикали, как на ТВ */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px; /* Крупный жирный шрифт */
+    font-weight: bold;
+    border: 3px solid #333366; /* Темная рамка ячейки */
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2), 0 4px 8px rgba(0,0,0,0.15);
+    text-transform: uppercase;
+    font-family: 'Arial Black', Gadget, sans-serif; /* Тяжелый рубленый шрифт */
+
+    /* СТИЛЬ ДЛЯ ОТКРЫТОЙ БУКВЫ: Синий фон, белая буква */
+    background-color: #0022cc;
+    color: #ffffff;
+}
+
+/* СТИЛЬ ДЛЯ ЗАКРЫТОГО ОКОШКА: Чисто белое поле, буква скрыта */
+.tile.hidden-tile {
+    background-color: #ffffff;
+    color: transparent; /* Полностью прячем букву */
+    box-shadow: inset 0 0 8px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.1);
+}
