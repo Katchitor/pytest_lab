@@ -14,17 +14,21 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up Python 3.11
+    - name: Set up Python 3.12
       uses: actions/setup-python@v5
       with:
-        python-version: "3.11"
+        python-version: "3.12" # Используем стабильную 3.12, где точно заработает dnspython 2.9.0
+        update-environment: true # Принудительно обновляем переменные окружения PATH
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
+        # Сначала ставим базовые зависимости для тестирования
         pip install pytest pytest-cov flask
+        # Затем накатываем ваши зависимости из requirements.txt
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
     - name: Run tests with pytest and coverage
       run: |
-        pytest --cov=app tests/
+        # Запускаем pytest через модуль python, чтобы гарантировать использование правильного окружения
+        python -m pytest --cov=app tests/
