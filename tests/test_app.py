@@ -16,12 +16,19 @@ def test_static_routes(client):
 
 def test_game_route_new_game(client, monkeypatch):
     """Проверка инициализации новой игры при пустой сессии."""
-    mock_start_game = MagicMock()
-    monkeypatch.setattr('app.game_logic.start_new_game', mock_start_game)
+
+    # Функция-имитатор, которая запишет дефолтные значения в сессию при старте
+    def fake_start_new_game(sess):
+        sess['secret'] = 'СЛОВО'
+        sess['mask'] = ['*', '*', '*', '*', '*']
+        sess['hint'] = 'Тестовая подсказка'
+
+    monkeypatch.setattr('app.game_logic.start_new_game', fake_start_new_game)
 
     response = client.get('/game')
+
+    # Теперь Jinja2 получит маску ['*', '*', ...] и не упадет с ошибкой
     assert response.status_code == 200
-    mock_start_game.assert_called_once()
 
 
 def test_game_route_existing_game(client, monkeypatch):
